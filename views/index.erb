@@ -22,3 +22,12 @@
 <% else %>
     <p>There are no books yet!</p>
 <% end %>
+
+<h1>Search for a book:</h1>
+<form action="/search" method="get">
+  <label for="search_name">Name</label>
+  <input id="search_name" name="search_name" type="text">
+  <label for="search_author">Author</label>
+  <input id="search_author" name="search_author" type="text">
+  <button type="submit">Search</button>
+</form>

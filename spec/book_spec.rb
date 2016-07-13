@@ -41,7 +41,6 @@ describe(Book) do
     end
   end
 
-
   describe("#delete") do
     it "lets you you delete a book from the database" do
       book = Book.new({:id => nil, :name => "Harry Potter", :author => "J.K.Rowling"})
@@ -52,5 +51,4 @@ describe(Book) do
       expect(Book.all()).to(eq([book2]))
     end
   end
-
 end

@@ -38,6 +38,14 @@ class Book
     found_book
   end
 
+  define_singleton_method(:search) do |name, author|
+    books = DB.exec("SELECT * FROM books WHERE name = '#{name}' OR author = '#{author}';").first
+    id = books['id'].to_i
+    name = books['name']
+    author = books['author']
+    returned_book = Book.new({name: name, author: author, id: id})
+  end
+
   define_method(:update)  do |attributes|
     @id = self.id()
     @name = attributes[:name]
@@ -48,4 +56,6 @@ class Book
   define_method(:delete) do
     DB.exec("DELETE FROM books WHERE id = #{self.id()};")
   end
+
+
 end

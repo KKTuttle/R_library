@@ -1,5 +1,6 @@
 require 'rspec'
 require 'pg'
+require 'pry'
 require 'books'
 require 'patrons'
 require 'checkouts'

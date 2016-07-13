@@ -4,6 +4,7 @@ require('./lib/books')
 require('./lib/checkouts')
 require('./lib/patrons')
 require('pg')
+require('pry')
 also_reload('lib/**/*.rb')
 
 DB = PG.connect({:dbname => "library"})
@@ -41,4 +42,12 @@ delete("/books/:id") do
   @book.delete()
   @books = Book.all()
   erb(:index)
+end
+
+get('/search') do
+  name = params.fetch("search_name")
+  author = params.fetch("search_author")
+  @book = Book.search(name, author)
+  @books = Book.all()
+  erb(:book_edit)
 end

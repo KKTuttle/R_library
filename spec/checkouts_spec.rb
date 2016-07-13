@@ -16,7 +16,7 @@ describe(Checkout) do
   end
 
   describe("#save") do
-    it "saves a checkout to the array of patrons" do
+    it "saves a checkout to the array of checkouts" do
       test_checkout = Checkout.new({:id => nil, :due => "2016-07-13", :book_id => 1, :patron_id => 1})
       test_checkout.save()
       expect(Checkout.all()).to(eq([test_checkout]))

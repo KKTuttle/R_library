@@ -1,9 +1,8 @@
 class Patron
-  attr_reader(:id, :name, :history)
+  attr_reader(:id, :name)
   define_method(:initialize) do |attributes|
     @id = attributes[:id]
     @name = attributes[:name]
-    @history = attributes[:history]
   end
 
   define_singleton_method(:all) do
@@ -12,18 +11,17 @@ class Patron
     returned_patrons.each() do |patron|
       id = patron["id"].to_i()
       name = patron["name"]
-      history = patron["history"]
-      patrons.push(Patron.new({:id => id, :name => name, :history => history}))
+      patrons.push(Patron.new({:id => id, :name => name}))
     end
     patrons
   end
 
   define_method(:==) do |another_patron|
-    self.name().==(another_patron.name()).&(self.id().==(another_patron.id())).&(self.history().==(another_patron.history()))
+    self.name().==(another_patron.name()).&(self.id().==(another_patron.id()))
   end
 
   define_method(:save) do
-    result = DB.exec("INSERT INTO patrons (name, history) VALUES ('#{@name}', '#{@history}') RETURNING id");
+    result = DB.exec("INSERT INTO patrons (name) VALUES ('#{@name}') RETURNING id");
     @id = result.first().fetch("id").to_i()
   end
 
@@ -36,4 +34,15 @@ class Patron
     end
     found_patron
   end
+
+  define_method(:update) do |attributes|
+    @id = self.id()
+    @name = attributes[:name]
+    DB.exec("UPDATE patrons SET name = '#{@name}' WHERE id  = #{@id};")
+  end
+
+  define_method(:delete) do
+    DB.exec("DELETE FROM patrons WHERE id = #{self.id()};")
+  end
+
 end

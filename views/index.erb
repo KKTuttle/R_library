@@ -13,7 +13,9 @@
 
   <ul>
     <% @books.each() do |book| %>
-      <li><%= book.name() %> by <%= book.author() %></li>
+      <li><a href="/books/<%= book.id() %>/edit">
+      <%= book.name() %> by <%= book.author() %></a>
+    </li>
     <% end %>
   </ul>
 

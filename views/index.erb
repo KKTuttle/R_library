@@ -31,3 +31,24 @@
   <input id="search_author" name="search_author" type="text">
   <button type="submit">Search</button>
 </form>
+
+
+<h1>Add user to the library database</h1>
+
+<form action="/patrons" method="post">
+  <label for="user_name">Your User Name</label>
+  <input id="user_name" name="user_name" type="text">
+  <button type="submit">Add</button>
+</form>
+
+<% if @patrons.any?() %>
+<h3>Here are All the Users</h3>
+
+<ul>
+  <% @patrons.each() do |patron| %>
+    <li><a href="/patrons/<%= patron.id() %>">
+    <%= patron.name() %></a>
+  </li>
+  <% end %>
+</ul>
+<% end %>

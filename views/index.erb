@@ -1,0 +1,22 @@
+<h1>Welcome to the Ruby Local Library!</h1>
+
+<form action="/" method="post">
+  <label for="name">Name</label>
+  <input id="name" name="name" type="text">
+  <label for="author">Author</label>
+  <input id="author" name="author" type="text">
+  <button type="submit">Add</button>
+</form>
+
+<% if @books.any?() %>
+  <h3>Here are our books:</h3>
+
+  <ul>
+    <% @books.each() do |book| %>
+      <li><%= book.name() %> by <%= book.author() %></li>
+    <% end %>
+  </ul>
+
+<% else %>
+    <p>There are no books yet!</p>
+<% end %>

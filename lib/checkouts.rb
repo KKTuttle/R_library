@@ -38,4 +38,6 @@ class Checkout
     end
     found_checkout
   end
+
+  
 end

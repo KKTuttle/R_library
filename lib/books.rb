@@ -5,8 +5,8 @@ class Book
     @id = attributes[:id]
     @name = attributes[:name]
     @author = attributes[:author]
-
   end
+
   define_singleton_method(:all) do
     returned_books = DB.exec("SELECT * FROM books;")
     books = []
@@ -36,5 +36,16 @@ class Book
       end
     end
     found_book
+  end
+
+  define_method(:update)  do |attributes|
+    @id = self.id()
+    @name = attributes[:name]
+    @author = attributes[:author]
+    DB.exec("UPDATE books SET name = '#{@name}', author = '#{@author}' WHERE id = #{@id};")
+  end
+
+  define_method(:delete) do
+    DB.exec("DELETE FROM books WHERE id = #{self.id()};")
   end
 end

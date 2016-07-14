@@ -1,3 +1,4 @@
+
 class Book
   attr_reader(:id, :name, :author)
 
@@ -46,7 +47,6 @@ class Book
     returned_book = Book.new({name: name, author: author, id: id})
   end
 
-
   define_method(:update) do |attributes|
     @id = self.id()
     @name = attributes[:name]
@@ -55,8 +55,9 @@ class Book
   end
 
   define_method(:add_user)  do |attributes|
+    due = Time.new().to_date() + 10
     attributes.fetch(:patron_ids, []).each() do |patron_id|
-      DB.exec("INSERT INTO checkouts (book_id, patron_id) VALUES (#{self.id()}, #{patron_id});")
+      DB.exec("INSERT INTO checkouts (due, book_id, patron_id) VALUES ('#{due}', #{self.id()}, #{patron_id});")
     end
   end
 
@@ -70,6 +71,14 @@ class Book
       checkouts.push(Patron.new({:id => patron_id, :name =>name}))
     end
     checkouts
+  end
+
+  define_method(:due_date) do
+    due_dates = []
+    results = DB.exec("SELECT due FROM checkouts WHERE book_id = #{self.id()};")
+    due_date = results.first().fetch("due")
+      due_dates.push(due_date)
+      due_dates.join("")
   end
 
   define_method(:delete) do

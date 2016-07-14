@@ -3,6 +3,7 @@ require 'pg'
 require 'pry'
 require 'books'
 require 'patrons'
+require 'date'
 
 DB = PG.connect({:dbname => 'library_test'})
 

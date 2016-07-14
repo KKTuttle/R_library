@@ -77,4 +77,18 @@ describe(Book) do
       expect(Book.all()).to(eq([book2]))
     end
   end
+
+  describe("#due_date") do
+    it "returns a due date for a book" do
+      book =Book.new({:id => nil, :name => "Harry Potter", :author => "J.K.Rowling"})
+      book.save()
+      patron = Patron.new({:id => nil, :name => "John"})
+      patron.save()
+      book.add_user({:patron_ids =>[patron.id()]})
+      # expect(book.due_date()).to(be_an_instance_of(Integer))
+      expect(book.due_date()).to(eq("2016-07-24"))
+
+    end
+  end
+
 end

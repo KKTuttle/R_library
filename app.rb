@@ -1,7 +1,6 @@
 require('sinatra')
 require('sinatra/reloader')
 require('./lib/books')
-require('./lib/checkouts')
 require('./lib/patrons')
 require('pg')
 require('pry')
@@ -15,7 +14,7 @@ get('/') do
   erb(:index)
 end
 
-post('/') do
+post('/books') do
   name = params['name']
   author = params['author']
   book = Book.new({:id => nil, :name => name, :author => author})
@@ -33,9 +32,9 @@ get("/books/:id") do
 end
 
 get("/books/:id/edit") do
-  @patrons = Patron.all()
-  @books = Book.all()
   @book = Book.find(params.fetch("id").to_i())
+  @books = Book.all()
+  @patrons = Patron.all()
   erb(:book_edit)
 end
 
@@ -46,16 +45,15 @@ patch("/books/:id/edit") do
   @book.update({:name => name, :author => author})
   @books = Book.all()
   @patrons = Patron.all()
-  book_id = params.fetch("id").to_i()
   erb(:book_edit)
 end
 
 patch("/books/:id") do
   book_id = params.fetch("id").to_i()
   @book = Book.find(book_id)
-  @books = Book.all()
   patron_ids = params.fetch("patron_ids")
   @book.add_user({:patron_ids => patron_ids})
+  @books = Book.all()
   @patrons = Patron.all()
   erb(:book_info)
 end
@@ -78,7 +76,7 @@ get('/search') do
 end
 
 post('/patrons') do
-  name =params["user_name"]
+  name = params["user_name"]
   patron = Patron.new({id: nil, name: name})
   patron.save()
   @patrons = Patron.all()
@@ -87,16 +85,15 @@ post('/patrons') do
 end
 
 get('/patrons/:id') do
-  @patron = Patron.find(params['id'].to_i())
+  @patron = Patron.find(params["id"].to_i())
   @books = Book.all()
   erb(:patron)
 end
 
 patch('/patrons/:id/edit') do
-  name = params['new_user_name']
   @patron = Patron.find(params.fetch("id").to_i())
+  name = params['new_user_name']
   @patron.update({name: name})
-  @patrons = Patron.all()
   @books = Book.all()
   erb(:patron)
 end
@@ -104,7 +101,6 @@ end
 patch('/patrons/:id') do
   patron_id = params.fetch("id").to_i()
   @patron = Patron.find(params.fetch("id").to_i())
-  @patrons = Patron.all()
   book_ids = params.fetch("book_ids")
   @patron.add_book({:book_ids => book_ids})
   @books = Book.all()
@@ -114,7 +110,7 @@ end
 delete("/patrons/:id") do
   @patron = Patron.find(params.fetch("id").to_i())
   @patron.delete()
-  @books = Book.all()
   @patrons = Patron.all()
+  @books = Book.all()
   erb(:index)
 end

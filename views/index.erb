@@ -2,9 +2,9 @@
 
 <form action="/" method="post">
   <label for="name">Name</label>
-  <input id="name" name="name" type="text">
+  <input id="name" name="name" type="text" required>
   <label for="author">Author</label>
-  <input id="author" name="author" type="text">
+  <input id="author" name="author" type="text" required>
   <button type="submit">Add</button>
 </form>
 
@@ -13,7 +13,7 @@
 
   <ul>
     <% @books.each() do |book| %>
-      <li><a href="/books/<%= book.id() %>/edit">
+      <li><a href="/books/<%= book.id() %>">
       <%= book.name() %> by <%= book.author() %></a>
     </li>
     <% end %>
@@ -37,7 +37,7 @@
 
 <form action="/patrons" method="post">
   <label for="user_name">Your User Name</label>
-  <input id="user_name" name="user_name" type="text">
+  <input id="user_name" name="user_name" type="text" required>
   <button type="submit">Add</button>
 </form>
 

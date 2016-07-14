@@ -46,12 +46,15 @@ class Book
     returned_book = Book.new({name: name, author: author, id: id})
   end
 
-  define_method(:update)  do |attributes|
+
+  define_method(:update) do |attributes|
     @id = self.id()
     @name = attributes[:name]
     @author = attributes[:author]
     DB.exec("UPDATE books SET name = '#{@name}', author = '#{@author}' WHERE id = #{@id};")
+  end
 
+  define_method(:add_user)  do |attributes|
     attributes.fetch(:patron_ids, []).each() do |patron_id|
       DB.exec("INSERT INTO checkouts (book_id, patron_id) VALUES (#{self.id()}, #{patron_id});")
     end

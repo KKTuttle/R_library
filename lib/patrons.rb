@@ -39,7 +39,9 @@ class Patron
     @id = self.id()
     @name = attributes.fetch(:name, @name)
     DB.exec("UPDATE patrons SET name = '#{@name}' WHERE id  = #{@id};")
+  end
 
+  define_method(:add_book) do |attributes|
     attributes.fetch(:book_ids, []).each() do |book_id|
       DB.exec("INSERT INTO checkouts (book_id, patron_id) VALUES (#{book_id}, #{self.id()});")
     end

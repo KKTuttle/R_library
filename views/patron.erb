@@ -5,9 +5,44 @@
 <form action="/patrons/<%= @patron.id() %>/edit" method="post">
   <input name="_method" type="hidden" value="patch">
   <label for="new_user_name">New User Name:</label>
-  <input id="new_user_name" name="new_user_name" type="text">
+  <input id="new_user_name" name="new_user_name" type="text" required>
   <button type="submit">Update</button>
 </form>
 
+<h3>Select all books you want to read:</h3>
 
-<a href="/">Return to homepage</a>
+<% if @books.any?() %>
+  <form action="/patrons/<%= @patron.id %>" method="post">
+    <input type="hidden" name="_method" value="patch">
+    <% @books.each() do |book| %>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="book_ids[]" value="<%= book.id() %>"><%= book.name() %>
+        </label>
+      </div>
+    <% end %>
+
+    <button type="submit">Add books</button>
+  </form>
+<% end %>
+
+<% if @patron.books().any?() %>
+
+  <h3>Here are all the books this patron has read:</h3>
+
+  <ul>
+    <% @patron.books().each() do |book| %>
+      <li><%= book.name() %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You haven't read any books yet! <a href="/">View books here!</a></p>
+<% end %>
+
+<h1>Delete This User</h1>
+<form action="/patrons/<%= @patron.id() %>" method="post">
+  <input name="_method" type="hidden" value="delete">
+  <button type="submit">Delete user</button>
+</form>
+
+<a href="/">home</a>
